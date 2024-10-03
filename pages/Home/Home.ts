@@ -12,6 +12,8 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { AntDesign } from '@expo/vector-icons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -167,19 +169,21 @@ export default function App() {
       
         <View
           style={{
-            height: '85%',
+            height: verticalScale(380),
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-around',
             alignItems: 'center'
-            ,borderRadius:44 
+            ,borderRadius:30 
           }}>
-          <View style={{ backgroundColor: 'black',borderRadius:44 }}>
+          <View style={{ backgroundColor: 'black',borderRadius:30 }}>
            
            
             <TouchableOpacity>
               <Image
-                style={{ width: width * 0.9, height: height * 0.5, marginLeft: '0%',borderRadius:44  }}
+                style={{ width:scale(300), height: verticalScale(340), marginLeft: '0%',borderRadius:30,
+             resizeMode:'contain'
+                  }}
                 source={{
                   uri: users[i].img,
                 }}
@@ -199,33 +203,33 @@ export default function App() {
             <Text
               style={{
                 color: 'white',
-                fontSize: scaleFont(35),
+                fontSize: RFPercentage(5),
                 position: 'absolute',
                 zIndex: 44,
                 marginLeft: '5%',
-                marginTop: height * 0.28,
+                marginTop:moderateScale(180),
               }}>
               {users[i].name}
             </Text>
             <Text
               style={{
                 color: 'white',
-                fontSize: scaleFont(30),
+                fontSize: RFPercentage(4),
                 position: 'absolute',
                 zIndex: 44,
                 marginLeft: '5%',
-                marginTop: height * 0.34,
+                marginTop: moderateScale(220),
               }}>
             { users[i].age}
             </Text>
             <Text
               style={{
                 color: 'white',
-                fontSize: scaleFont(20),
+                fontSize: RFPercentage(4),
                 position: 'absolute',
                 zIndex: 44,
                 marginLeft: '5%',
-                marginTop: height * 0.39,
+                marginTop: moderateScale(250),
               }}>
              {users[i].country}
             </Text>

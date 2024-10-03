@@ -15,6 +15,8 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import Modal from 'react-native-modal';
 import { Picker } from '@react-native-picker/picker';
+import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 import countryList from 'country-list';
 
 export default function App() {
@@ -66,14 +68,14 @@ const [selectedHoroscope, setSelectedHoroscope] = useState(horoscopes[0].label);
         style={styles.background}
       >
         <Image
-          style={{ width: width * 0.3, height: width * 0.3,marginLeft:'5%' }}
+          style={{ width: scale(105), height:verticalScale(65),marginLeft:'1%' }}
           source={require('./horoslogo.png')}
           resizeMode='contain'
         />
 
         <TouchableOpacity style={{ display: 'flex', alignItems: 'center' }}>
           <Image
-            style={{ width: width * 0.3, height: width * 0.2 }}
+            style={{ width:scale(95), height: verticalScale(65)}}
             source={{
               uri: 'https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?size=338&ext=jpg&ga=GA1.1.1826414947.1724630400&semt=ais_hybrid',
             }}
@@ -85,18 +87,18 @@ const [selectedHoroscope, setSelectedHoroscope] = useState(horoscopes[0].label);
           colors={['#bb083e', '#fe6292', 'white']}
           style={{
             flex: 1,
-            paddingVertical: width * 0.1,
-            borderTopEndRadius: width * 0.2,
-            marginTop: width * 0.08,
+            paddingVertical: moderateScale(15),
+            borderTopEndRadius: moderateScale(65),
+            marginTop: verticalScale(15),
           }}
         >
           <ScrollView
-            contentContainerStyle={{ paddingHorizontal: width * 0.06 }}
+            contentContainerStyle={{ paddingHorizontal: moderateScale(15) }}
             keyboardShouldPersistTaps='handled'
           >
             <Text
               style={{
-                fontSize: scaleFont(16),
+                fontSize: RFPercentage(2.5),
                 fontWeight: '700',
                 color: 'white',
                 marginTop: width * 0.04,
@@ -204,8 +206,8 @@ const [selectedHoroscope, setSelectedHoroscope] = useState(horoscopes[0].label);
 
 
  
-<TouchableOpacity onPress={()=>{setModalVisible(true)}} style={{display:'flex',justifyContent:'center',backgroundColor:'white',height:width*0.1,borderRadius:width*0.02,marginTop:width*0.06,paddingHorizontal:width*0.04}} >
-<Text style={{color:'black',fontSize:scaleFont(16)}}>{selectedHoroscope}</Text>
+<TouchableOpacity onPress={()=>{setModalVisible(true)}} style={{display:'flex',justifyContent:'center',backgroundColor:'white',height:verticalScale(40),borderRadius:moderateScale(15),marginTop:verticalScale(7),paddingHorizontal:scale(15)}} >
+<Text style={{color:'black',fontSize:RFPercentage(2.5)}}>{selectedHoroscope}</Text>
 </TouchableOpacity>
 
 
@@ -221,9 +223,9 @@ const [selectedHoroscope, setSelectedHoroscope] = useState(horoscopes[0].label);
 
             <Text
               style={{
-                fontSize: scaleFont(16),
+                fontSize: RFPercentage(2.5),
                 fontWeight: '700',
-                marginTop: width * 0.045,
+                marginTop:verticalScale(13),
                 color: 'white',
               }}
             >
@@ -233,9 +235,10 @@ const [selectedHoroscope, setSelectedHoroscope] = useState(horoscopes[0].label);
             <View style={styles.textAreaContainer}>
               <TextInput
                 style={{ 
-    fontSize:scaleFont(16),
-    height: 150,
+    fontSize:RFPercentage(2.4),
+    height: verticalScale(165),
     justifyContent: 'flex-start',
+    borderRadius:moderateScale(35),
     textAlignVertical: 'top'}}
                 multiline={true}
                 numberOfLines={10}
@@ -243,8 +246,8 @@ const [selectedHoroscope, setSelectedHoroscope] = useState(horoscopes[0].label);
               />
             </View>
 
-<TouchableOpacity style={{backgroundColor:'red',display:'flex',marginTop:width*0.01,marginLeft:"2%",justifyContent:'center',alignItems:'center',width:width*0.38,paddingVertical:width*0.03,borderRadius:width*0.08}}>
-<Text style={{color:'white',fontSize:scaleFont(16),fontWeight:500, fontFamily: 'CuteFont'}}>Save</Text>
+<TouchableOpacity style={{backgroundColor:'red',display:'flex',marginTop:verticalScale(2),marginLeft:"2%",justifyContent:'center',alignItems:'center',width:scale(95),paddingVertical:verticalScale(10),borderRadius:moderateScale(18)}}>
+<Text style={{color:'white',fontSize:RFPercentage(2.6),fontWeight:500, fontFamily: 'CuteFont'}}>Save</Text>
 </TouchableOpacity>
 
 
@@ -264,35 +267,36 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#bdbdbd',
     width: '100%',
-    marginTop: 10,
-    paddingVertical: 12,
+    marginTop: verticalScale(8),
+    paddingVertical: verticalScale(13),
     paddingHorizontal: 8,
-    borderRadius: 8,
+    borderRadius: moderateScale(15),
   },
   pickerButton: {
     justifyContent: 'center',
     backgroundColor: 'white',
-    height: 50,
-    borderRadius: 8,
+    height: verticalScale(40),
+    borderRadius: moderateScale(15),
     marginTop: 10,
-    paddingHorizontal: 16,
+    paddingHorizontal: scale(15),
   },
   pickerText: {
     color: 'black',
+    fontSize:RFPercentage(2.5)
   },
   modal: {
     backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
+    padding: moderateScale(2),
+    borderRadius: moderateScale(15),
   },
   textAreaContainer: {
     backgroundColor:'white',
     borderColor: '#ccc',
     borderWidth: 1,
     padding: 10,
-    borderRadius: 5,
+    borderRadius: moderateScale(7),
     marginBottom: 20,
-    marginTop: 10,
+    marginTop: verticalScale(12),
   },
   textArea: {
     
