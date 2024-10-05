@@ -1,4 +1,5 @@
 
+
 import React, { useState } from 'react';
 import {
   StyleSheet,
@@ -14,14 +15,23 @@ import { AntDesign } from '@expo/vector-icons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import * as Font from 'expo-font';
+import { useFonts, Poppins_400Regular, Poppins_500Medium } from '@expo-google-fonts/poppins';
+
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
   withTiming,
+  Easing
 } from 'react-native-reanimated';
 
-export default function App() {
+export default function Home() {
+  const [fontLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_500Medium,
+  });
+    const [isFilterVisible, setIsFilterVisible] = useState(false);
   const { width, height } = Dimensions.get('window');
   const scaleFont = (size) => (width / 375) * size; // Assuming 375 is the base width
   const heartScale = useSharedValue(1);
@@ -33,12 +43,27 @@ export default function App() {
   // State to track hearts and close icons that appear on the screen
   const [hearts, setHearts] = useState([]);
   const [closes, setCloses] = useState([]);
-
+const filterTranslation = useSharedValue(height);
   var [i,setI]=useState(0)
+   const filterBorderRadius = useSharedValue(100);
+   const filterScale = useSharedValue(0);
   // Animation for main heart scaling
   const animatedHeartStyle = useAnimatedStyle(() => {
     return {
       transform: [{ scale: heartScale.value }],
+    };
+  });
+
+
+var filterwidth=useSharedValue(0);
+var filterheight=useSharedValue(0);
+
+   const animatedFilterStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateY: filterTranslation.value }],
+       borderRadius: filterBorderRadius.value,
+       width:filterwidth.value,
+       height:filterheight.value
     };
   });
 
@@ -68,6 +93,21 @@ export default function App() {
     // Add a new close icon to the state to animate it floating upwards
    
   };
+
+    const handleFilterPress = () => {
+    if (isFilterVisible) {
+      filterTranslation.value = withTiming(height, { duration: 300, easing: Easing.inOut(Easing.ease) });
+      filterBorderRadius.value = withTiming(100, { duration: 500, easing: Easing.inOut(Easing.ease) });
+
+    } else {
+      filterTranslation.value = withTiming(0, { duration: 300, easing: Easing.inOut(Easing.ease) });
+           filterBorderRadius.value = withTiming(0, { duration: 500, easing: Easing.inOut(Easing.ease) });
+           filterwidth.value= withTiming(width, { duration: 500, easing: Easing.inOut(Easing.ease) });
+           filterheight.value= withTiming(height, { duration: 500, easing: Easing.inOut(Easing.ease) });
+    }
+    setIsFilterVisible(!isFilterVisible);
+  };
+
 
   // Heart floating animation styles
   const FloatingHeart = ({ id }) => {
@@ -155,7 +195,7 @@ export default function App() {
           resizeMode="contain"
         />
 
-        <TouchableOpacity>
+      <TouchableOpacity onPress={handleFilterPress}>
           <AntDesign name="filter" size={scaleFont(40)} color="#a4a2a2" />
         </TouchableOpacity>
       </View>
@@ -207,7 +247,7 @@ export default function App() {
                 position: 'absolute',
                 zIndex: 44,
                 marginLeft: '5%',
-                marginTop:moderateScale(180),
+                marginTop:moderateScale(180),fontFamily: 'Poppins_400Regular' 
               }}>
               {users[i].name}
             </Text>
@@ -218,7 +258,7 @@ export default function App() {
                 position: 'absolute',
                 zIndex: 44,
                 marginLeft: '5%',
-                marginTop: moderateScale(220),
+                marginTop: moderateScale(220),fontFamily: 'Poppins_400Regular' 
               }}>
             { users[i].age}
             </Text>
@@ -229,7 +269,7 @@ export default function App() {
                 position: 'absolute',
                 zIndex: 44,
                 marginLeft: '5%',
-                marginTop: moderateScale(250),
+                marginTop: moderateScale(250),fontFamily: 'Poppins_400Regular' 
               }}>
              {users[i].country}
             </Text>
@@ -280,23 +320,52 @@ export default function App() {
           alignItems: 'center',
         }}>
         <TouchableOpacity>
-          <MaterialCommunityIcons name="mother-heart" size={scaleFont(35)} color="red" />
+          <MaterialCommunityIcons name="mother-heart" size={RFPercentage(5)} color="red" />
         </TouchableOpacity>
 
         <TouchableOpacity>
-          <AntDesign name="message1" size={scaleFont(30)} color="black" />
+          <AntDesign name="message1" size={RFPercentage(5)} color="black" />
         </TouchableOpacity>
 
         <TouchableOpacity>
-          <AntDesign name="user" size={scaleFont(30)} color="#6e6c6c" />
+          <AntDesign name="user" size={RFPercentage(5)} color="#6e6c6c" />
         </TouchableOpacity>
     
      </View>
      
+
+  <Animated.View style={[styles.filterContainer, animatedFilterStyle]}>
+        <Text style={styles.filterTitle}>Filter</Text>
+        <Text style={styles.filterOption}>Age: 18-30</Text>
+        <Text style={styles.filterOption}>Country: Russia</Text>
+        {/* Add more filter options here */}
+      </Animated.View>
+
+
+
+
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  // Your styles remain unchanged
+ filterContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'white',
+    zIndex: 999,
+    padding: '10%',
+  },
+  filterTitle: {
+    fontSize: RFPercentage(4),
+    marginBottom: '5%',
+  },
+  filterOption: {
+    fontSize: RFPercentage(3),
+    marginBottom: '2%',
+  },
 });
