@@ -5,19 +5,21 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
  import Entypo from '@expo/vector-icons/Entypo';
-import { useFonts } from 'expo-font';
+
 import AppLoading from 'expo-app-loading';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { RFPercentage } from 'react-native-responsive-fontsize';
-
+import * as Font from 'expo-font';
+import { useFonts, Poppins_400Regular, Poppins_500Medium } from '@expo-google-fonts/poppins';
 export default function App() {
 
 const { width, height } = Dimensions.get('window');
 const scaleFont = (size) => (width / 375) * size; // Assuming 375 is the base width (e.g., iPhone X)
 
 const circleSize = width * 0.12; // 50% of screen width
-  let [fontsLoaded] = useFonts({
-    'CuteFont': require('./assets/Poppins-Medium.ttf'), // Update the path as necessary
+const [fontLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_500Medium,
   });
   return (
     <LinearGradient
@@ -33,19 +35,19 @@ const circleSize = width * 0.12; // 50% of screen width
 
 <LinearGradient
       // Background Linear Gradient
-      colors={['#bb083e' , '#fe6292','white']}  style={{width:'100%',flex:'1',borderColor:'#ececec',borderTopEndRadius:verticalScale(65),paddingTop:verticalScale(35),paddingHorizontal:scale(25),marginTop:verticalScale(15)}}>
+      colors={['#bb083e' , '#fe6292','white']}  style={{display:'flex',justifyContent:'space-around',width:'100%',flex:'1',borderColor:'#ececec',borderTopEndRadius:verticalScale(65),paddingTop:verticalScale(35),paddingHorizontal:scale(25),marginTop:verticalScale(15)}}>
 <Text style={{color:'white',fontSize:RFPercentage(4),fontWeight:700   , fontFamily: 'CuteFont',}}>Login</Text>
 
 <Text style={{color:'white',fontSize:RFPercentage(3),fontWeight:500,marginTop:verticalScale(30),    fontFamily: 'CuteFont'}}>Email</Text>
 
-<TextInput style={{backgroundColor:'white',width:scale(300),marginTop:verticalScale(10),
+<TextInput style={{backgroundColor:'white',width:scale(300),marginTop:verticalScale(5),
 paddingHorizontal:width*0.02,borderRadius:scale(20),height:verticalScale(50), fontFamily: 'CuteFont'}} placeholder="Enter your email" />
 
 
 
-<Text style={{color:'white',fontSize:scaleFont(16),fontWeight:500,marginTop:width*0.05,    fontFamily: 'CuteFont'}}>Password</Text>
+<Text style={{color:'white',fontSize:RFPercentage(3),fontWeight:500,marginTop:verticalScale(5),    fontFamily: 'CuteFont'}}>Password</Text>
 
-<TextInput style={{backgroundColor:'white',width:scale(300),marginTop:width*0.03,height:verticalScale(50),paddingVertical:width*0.03,
+<TextInput style={{backgroundColor:'white',width:scale(300),marginTop:verticalScale(5),height:verticalScale(50),paddingVertical:width*0.03,
 paddingHorizontal:width*0.02,borderRadius:scale(20),    fontFamily: 'CuteFont'}}placeholder="Enter your password"  />
 
 

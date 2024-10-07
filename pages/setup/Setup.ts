@@ -114,7 +114,7 @@ const [selectedHoroscope, setSelectedHoroscope] = useState(horoscopes[0].label);
 
             <Text
               style={{
-                fontSize: scaleFont(16),
+                fontSize:RFPercentage(2.5),
                 fontWeight: '700',
                 marginTop: width * 0.04,
                 color: 'white',
@@ -130,7 +130,7 @@ const [selectedHoroscope, setSelectedHoroscope] = useState(horoscopes[0].label);
 
             <Text
               style={{
-                fontSize: scaleFont(16),
+                fontSize: RFPercentage(2.5),
                 fontWeight: '700',
                 marginTop: width * 0.04,
                 color: 'white',
@@ -161,7 +161,7 @@ const [selectedHoroscope, setSelectedHoroscope] = useState(horoscopes[0].label);
 
 
 
- <Text style={{fontSize:scaleFont(17),fontWeight:700,marginTop:width*0.04,color:'white'}}>Horoscop</Text>
+ <Text style={{fontSize:RFPercentage(2.5),fontWeight:700,marginTop:width*0.04,color:'white'}}>Horoscop</Text>
 
 
 
@@ -169,8 +169,8 @@ const [selectedHoroscope, setSelectedHoroscope] = useState(horoscopes[0].label);
  <Modal isVisible={isModalVisible}>
         <View style={{
     backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
+    padding: scale(!0),
+    borderRadius: moderateScale(20),
   }}>
           <Picker
             selectedValue={selectedHoroscope}
@@ -270,7 +270,8 @@ const styles = StyleSheet.create({
     marginTop: verticalScale(8),
     paddingVertical: verticalScale(13),
     paddingHorizontal: 8,
-    borderRadius: moderateScale(15),
+    borderRadius: moderateScale(35),
+    height:verticalScale(43)
   },
   pickerButton: {
     justifyContent: 'center',
