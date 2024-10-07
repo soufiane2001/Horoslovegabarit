@@ -35,6 +35,8 @@ export default function Home() {
   const { width, height } = Dimensions.get('window');
   const scaleFont = (size) => (width / 375) * size; // Assuming 375 is the base width
   const heartScale = useSharedValue(1);
+  const leftdetail=useSharedValue("45%");
+    const topdetail=useSharedValue("45%");
   const closeIconScale = useSharedValue(1);
   var users=[{name:"kristina",age:22,country:'russia',img:'https://img.freepik.com/photos-gratuite/portrait-femme-blonde-regarder-photographe_23-2148348970.jpg'},{
   name:"anna",age:19,country:'russia',img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC1l6fbVIlb9dXMPu06Tnl5wO-v_cEi2a2Yw&s'}
@@ -43,9 +45,14 @@ export default function Home() {
   // State to track hearts and close icons that appear on the screen
   const [hearts, setHearts] = useState([]);
   const [closes, setCloses] = useState([]);
+  const widthdetail=useSharedValue(0);
+  const heightdetail=useSharedValue(0);
+  const raduisdetail=useSharedValue(500);
 const filterTranslation = useSharedValue(height);
   var [i,setI]=useState(0)
    const filterBorderRadius = useSharedValue(100);
+   const detailTranslation=useSharedValue(0);
+   const visible=useSharedValue(0);
    const filterScale = useSharedValue(0);
   // Animation for main heart scaling
   const animatedHeartStyle = useAnimatedStyle(() => {
@@ -66,6 +73,24 @@ var filterheight=useSharedValue(0);
        height:filterheight.value
     };
   });
+//
+
+
+   const animateddetail = useAnimatedStyle(() => {
+    return {
+    width:widthdetail.value,
+    height:heightdetail.value,
+    borderRadius:raduisdetail.value,
+    display:visible.value==0?"none":'block',
+    left:leftdetail.value,
+    top:topdetail.value
+    };
+  });
+
+
+
+
+
 
   // Animation for close icon scaling
   const animatedCloseStyle = useAnimatedStyle(() => {
@@ -93,6 +118,18 @@ var filterheight=useSharedValue(0);
     // Add a new close icon to the state to animate it floating upwards
    
   };
+
+const handeldetailPress=()=>{
+widthdetail.value=withTiming(width,{duration:500});
+heightdetail.value=withTiming(height,{duration:500});
+raduisdetail.value=withTiming(0,{duration:1000});
+leftdetail.value=withTiming("0%",{duration:500});
+topdetail.value=withTiming("0%",{duration:500});
+visible.value=1;
+
+}
+
+
 
     const handleFilterPress = () => {
     if (isFilterVisible) {
@@ -219,7 +256,7 @@ var filterheight=useSharedValue(0);
           <View style={{ backgroundColor: 'black',borderRadius:30 }}>
            
            
-            <TouchableOpacity>
+            <TouchableOpacity style={{}} onPress={()=>{alert(4); handeldetailPress()}}>
               <Image
                 style={{ width:scale(300), height: verticalScale(340), marginLeft: '0%',borderRadius:30,
              resizeMode:'contain'
@@ -230,7 +267,8 @@ var filterheight=useSharedValue(0);
               />
             </TouchableOpacity>
 
-            <View
+            <TouchableOpacity
+            onPress={()=>{handeldetailPress()}}
               style={{
                 width: '100%',
                 height: height * 0.5,
@@ -239,7 +277,7 @@ var filterheight=useSharedValue(0);
                 borderRadius:34,
                 opacity: 0.55,
                 zIndex: 1,
-              }}></View>
+              }}></TouchableOpacity>
             <Text
               style={{
                 color: 'white',
@@ -345,11 +383,35 @@ var filterheight=useSharedValue(0);
 
 
 
+
+
+  <Animated.View style={[styles.detailContainer, animateddetail]}>
+      
+       
+      </Animated.View>
+
+
+
+
+
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+detailContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'white',
+    zIndex: 199,
+    padding: '10%',
+  }
+  ,
  filterContainer: {
     position: 'absolute',
     top: 0,
