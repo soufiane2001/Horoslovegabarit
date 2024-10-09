@@ -1,5 +1,7 @@
 
 
+
+
 import React, { useState } from 'react';
 import {
   StyleSheet,
@@ -7,8 +9,8 @@ import {
   View,
   Dimensions,
   Image,
-  TouchableOpacity,
-
+  TouchableOpacity
+, Slider, Picker 
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AntDesign } from '@expo/vector-icons';
@@ -38,6 +40,39 @@ export default function Home() {
   const leftdetail=useSharedValue("45%");
     const topdetail=useSharedValue("45%");
   const closeIconScale = useSharedValue(1);
+
+const [filters, setFilters] = useState({
+    age: '18-30',
+    country: 'Russia',
+    // Add more filters as needed
+  });
+
+  // Function to update filter state
+  const updateFilter = (filterType, value) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [filterType]: value,
+    }));
+  };
+
+/*********************************** */
+
+
+const [ageRange, setAgeRange] = useState([18, 30]); // Default age range
+  const [country, setCountry] = useState('Russia'); // Default country
+
+  // Reanimated shared value for the animated filter panel
+  const translateY = useSharedValue(-300); // Initially offscreen
+
+
+  const applyFilters = () => {
+    // Handle applying filters logic
+    console.log('Filters applied:', { ageRange, country });
+  };
+
+
+/******************************* */
+
   var users=[{name:"kristina",age:22,country:'russia',img:'https://img.freepik.com/photos-gratuite/portrait-femme-blonde-regarder-photographe_23-2148348970.jpg'},{
   name:"anna",age:19,country:'russia',img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC1l6fbVIlb9dXMPu06Tnl5wO-v_cEi2a2Yw&s'}
   
@@ -120,7 +155,7 @@ var filterheight=useSharedValue(0);
   };
 
 const handeldetailPress=()=>{
-widthdetail.value=withTiming(width,{duration:500});
+widthdetail.value=withTiming(width,{duration:600});
 heightdetail.value=withTiming(height,{duration:500});
 raduisdetail.value=withTiming(0,{duration:1000});
 leftdetail.value=withTiming("0%",{duration:500});
@@ -131,7 +166,16 @@ visible.value=1;
 
 
 
+
+
+
+
+
+
+/******************************************************************************************************/
+
     const handleFilterPress = () => {
+     
     if (isFilterVisible) {
       filterTranslation.value = withTiming(height, { duration: 300, easing: Easing.inOut(Easing.ease) });
       filterBorderRadius.value = withTiming(100, { duration: 500, easing: Easing.inOut(Easing.ease) });
@@ -144,6 +188,25 @@ visible.value=1;
     }
     setIsFilterVisible(!isFilterVisible);
   };
+
+
+
+
+ 
+
+
+
+
+
+/************************************************************************************************************ */
+
+
+
+
+
+
+
+
 
 
   // Heart floating animation styles
@@ -232,8 +295,8 @@ visible.value=1;
           resizeMode="contain"
         />
 
-      <TouchableOpacity onPress={handleFilterPress}>
-          <AntDesign name="filter" size={scaleFont(40)} color="#a4a2a2" />
+      <TouchableOpacity onPress={()=>{handleFilterPress()}}>
+          <AntDesign name="filter" size={RFPercentage(6)} color="#a4a2a2" />
         </TouchableOpacity>
       </View>
  <LinearGradient
@@ -256,7 +319,7 @@ visible.value=1;
           <View style={{ backgroundColor: 'black',borderRadius:30 }}>
            
            
-            <TouchableOpacity style={{}} onPress={()=>{alert(4); handeldetailPress()}}>
+            <TouchableOpacity style={{}} onPress={()=>{ handeldetailPress()}}>
               <Image
                 style={{ width:scale(300), height: verticalScale(340), marginLeft: '0%',borderRadius:30,
              resizeMode:'contain'
@@ -324,7 +387,7 @@ visible.value=1;
           }}>
           <TouchableOpacity onPress={handleClosePress}>
             <Animated.View style={animatedCloseStyle}>
-              <AntDesign name="closecircleo" size={scaleFont(48)} color="#9d9b9b" />
+              <AntDesign name="closecircleo" size={RFPercentage(8)} color="#9d9b9b" />
             </Animated.View>
           </TouchableOpacity>
           <TouchableOpacity onPress={()=>{ handleHeartPress();
@@ -333,7 +396,7 @@ visible.value=1;
     },1200)
           }}>
             <Animated.View style={animatedHeartStyle}>
-              <AntDesign name="heart" size={scaleFont(48)} color="red" />
+              <AntDesign name="heart" size={RFPercentage(8)} color="red" />
             </Animated.View>
           </TouchableOpacity>
         </View>
@@ -372,14 +435,43 @@ visible.value=1;
      </View>
      
 
-  <Animated.View style={[styles.filterContainer, animatedFilterStyle]}>
-        <Text style={styles.filterTitle}>Filter</Text>
-        <Text style={styles.filterOption}>Age: 18-30</Text>
-        <Text style={styles.filterOption}>Country: Russia</Text>
-        {/* Add more filter options here */}
-      </Animated.View>
 
 
+
+
+
+
+ <Animated.View style={[styles.filterContainer, animatedFilterStyle]}>
+      <TouchableOpacity onPress={()=>{handleFilterPress()}} style={styles.closeButton}>
+        <AntDesign name="closecircle" size={RFPercentage(4)} color="white" />
+      </TouchableOpacity>
+
+      <Text style={styles.filterTitle}>Filter</Text>
+
+      {/* Age filter options */}
+      <Text style={styles.filterOption}>
+        Age: {filters.age}
+      </Text>
+      <View style={styles.optionContainer}>
+        {['18-30', '31-45', '46-60'].map((age) => (
+          <TouchableOpacity key={age} onPress={() => updateFilter('age', age)} style={styles.optionButton}>
+            <Text style={styles.optionText}>{age}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      {/* Country filter options */}
+      <Text style={styles.filterOption}>
+        Country: {filters.country}
+      </Text>
+      <View style={styles.optionContainer}>
+        {['Russia', 'USA', 'Germany'].map((country) => (
+          <TouchableOpacity key={country} onPress={() => updateFilter('country', country)} style={styles.optionButton}>
+            <Text style={styles.optionText}>{country}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+    </Animated.View>
 
 
 
@@ -411,23 +503,56 @@ detailContainer: {
     zIndex: 199,
     padding: '10%',
   }
-  ,
- filterContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'white',
-    zIndex: 999,
-    padding: '10%',
+  ,filterContainer: {
+    position:'absolute',
+    padding: moderateScale(25),
+    backgroundColor: '#1F1F1F',
+    borderRadius: moderateScale(10),
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 8,
+  },
+  closeButton: {
+    alignSelf: 'flex-end',
+    marginBottom: 10,
   },
   filterTitle: {
-    fontSize: RFPercentage(4),
-    marginBottom: '5%',
+    fontSize: RFPercentage(5),
+    fontWeight: 'bold',
+    color: '#FF6F61',
+    marginBottom: 15,
   },
   filterOption: {
-    fontSize: RFPercentage(3),
-    marginBottom: '2%',
+    marginTop: verticalScale(35),
+    fontSize: RFPercentage(3.5),
+    color: '#FFFFFF',
   },
+  optionContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: verticalScale(10),
+  },
+  optionButton: {
+    backgroundColor: '#FF6F61',
+    borderRadius: 8,
+    paddingVertical: verticalScale(10),
+    paddingHorizontal: scale(30),
+    marginLeft:scale(25),
+    marginTop:verticalScale(25),
+    elevation: 3,
+    transition: 'background-color 0.3s ease',
+  },
+  optionText: {
+    fontSize: RFPercentage(2.6),
+    color: '#FFFFFF',
+  },
+  optionButtonHovered: {
+    backgroundColor: '#FF4C39',
+  },
+ 
 });
