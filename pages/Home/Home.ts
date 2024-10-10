@@ -10,7 +10,7 @@ import {
   Dimensions,
   Image,
   TouchableOpacity
-, Slider, Picker 
+, Slider, Picker ,ScrollView
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AntDesign } from '@expo/vector-icons';
@@ -155,9 +155,9 @@ var filterheight=useSharedValue(0);
   };
 
 const handeldetailPress=()=>{
-widthdetail.value=withTiming(width,{duration:600});
+widthdetail.value=withTiming(width,{duration:500});
 heightdetail.value=withTiming(height,{duration:500});
-raduisdetail.value=withTiming(0,{duration:1000});
+raduisdetail.value=withTiming(0,{duration:600});
 leftdetail.value=withTiming("0%",{duration:500});
 topdetail.value=withTiming("0%",{duration:500});
 visible.value=1;
@@ -167,6 +167,15 @@ visible.value=1;
 
 
 
+const closedetailPress=()=>{
+widthdetail.value=withTiming(0,{duration:600});
+heightdetail.value=withTiming(0,{duration:500});
+raduisdetail.value=withTiming(0,{duration:1000});
+leftdetail.value=withTiming("100%",{duration:500});
+topdetail.value=withTiming("85%",{duration:500});
+visible.value=withTiming(0,{duration:1100});
+
+}
 
 
 
@@ -322,7 +331,7 @@ visible.value=1;
             <TouchableOpacity style={{}} onPress={()=>{ handeldetailPress()}}>
               <Image
                 style={{ width:scale(300), height: verticalScale(340), marginLeft: '0%',borderRadius:30,
-             resizeMode:'contain'
+             resizeMode:'cover'
                   }}
                 source={{
                   uri: users[i].img,
@@ -478,7 +487,38 @@ visible.value=1;
 
 
   <Animated.View style={[styles.detailContainer, animateddetail]}>
-      
+
+<TouchableOpacity onPress={closedetailPress} style={{position:'absolute',top:verticalScale(25),left:scale(15),zIndex:5000}}>
+<AntDesign name="leftcircle" size={RFPercentage(5)} color="#f93804" />
+</TouchableOpacity>
+       <Image
+        source={{ uri:  users[0].img }} // Replace with your image URL
+        style={styles.image}
+      />
+      <View style={styles.textContainer}> 
+
+      <Text style={styles.age}>Age: 25</Text>
+
+      <ScrollView style={{marginTop:scale(25)}}>
+        <Text style={styles.description}>
+        🌟 About Me:
+Hey there! I'm a fun-loving adventurer who thrives on spontaneity and laughter. By day, I’m a graphic designer who enjoys turning caffeine into creativity, and by night, you can find me exploring new hiking trails or trying out the latest food trucks in town.
+
+📚 Interests:
+
+Books: A sucker for fantasy novels and a good thriller. If you have any recommendations, I'm all ears!
+Travel: I’ve backpacked through Europe and can’t wait to add more stamps to my passport. Next stop: Japan!
+Fitness: I’m an outdoor enthusiast who loves running and yoga. Let’s go for a hike or hit a spin class together!
+💡 Fun Facts:
+
+I can quote almost every line from The Office.
+I make a mean homemade guacamole (seriously, it’s legendary).
+I have a collection of quirky coffee mugs that could use some love.
+🤔 Looking For:
+Someone who shares my zest for life and can make me laugh. Bonus points if you can teach me something new or share your travel stories. If you enjoy deep conversations and stargazing, we’ll get along just fine!
+        </Text>
+       </ScrollView>
+      </View>
        
       </Animated.View>
 
@@ -501,11 +541,11 @@ detailContainer: {
     height: '100%',
     backgroundColor: 'white',
     zIndex: 199,
-    padding: '10%',
+    padding: '0%',
   }
   ,filterContainer: {
     position:'absolute',
-    padding: moderateScale(25),
+    paddingVertical: verticalScale(25),
     backgroundColor: '#1F1F1F',
     borderRadius: moderateScale(10),
     shadowColor: '#000',
@@ -523,12 +563,13 @@ detailContainer: {
   },
   filterTitle: {
     fontSize: RFPercentage(5),
-    fontWeight: 'bold',
+    fontWeight: 'bold',marginLeft:scale(15),
     color: '#FF6F61',
     marginBottom: 15,
   },
   filterOption: {
     marginTop: verticalScale(35),
+    marginLeft:scale(15),
     fontSize: RFPercentage(3.5),
     color: '#FFFFFF',
   },
@@ -554,5 +595,29 @@ detailContainer: {
   optionButtonHovered: {
     backgroundColor: '#FF4C39',
   },
- 
+ image: {
+    width: scale(350), // Increased width
+    height: verticalScale(400), // Increased height
+  resizeMode:"cover",
+    marginRight: 16,
+    borderWidth: 1,
+    borderColor: '#ff6347', // Example border color
+  },
+
+  textContainer: {
+    flex: 1,
+    padding:moderateScale(20)
+  },
+  description: {
+    fontSize: RFPercentage(2.2),
+    marginTop:scale(5),
+    fontWeight: 600,
+    color: '#333'    ,fontFamily: 'Poppins_400Regular'
+
+  },
+  age: {
+    fontSize: RFPercentage(3),
+    color: '#666'
+    ,fontFamily: 'Poppins_400Regular'
+  },
 });
