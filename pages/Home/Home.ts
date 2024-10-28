@@ -1,7 +1,4 @@
 
-
-
-
 import React, { useState } from 'react';
 import {
   StyleSheet,
@@ -156,7 +153,7 @@ var filterheight=useSharedValue(0);
 
 const handeldetailPress=()=>{
 widthdetail.value=withTiming(width,{duration:500});
-heightdetail.value=withTiming(height,{duration:500});
+heightdetail.value=withTiming(height+verticalScale(20),{duration:500});
 raduisdetail.value=withTiming(0,{duration:600});
 leftdetail.value=withTiming("0%",{duration:500});
 topdetail.value=withTiming("0%",{duration:500});
@@ -186,14 +183,14 @@ visible.value=withTiming(0,{duration:1100});
     const handleFilterPress = () => {
      
     if (isFilterVisible) {
-      filterTranslation.value = withTiming(height, { duration: 300, easing: Easing.inOut(Easing.ease) });
+      filterTranslation.value = withTiming(height+verticalScale(44), { duration: 700, easing: Easing.inOut(Easing.ease) });
       filterBorderRadius.value = withTiming(100, { duration: 500, easing: Easing.inOut(Easing.ease) });
 
     } else {
       filterTranslation.value = withTiming(0, { duration: 300, easing: Easing.inOut(Easing.ease) });
            filterBorderRadius.value = withTiming(0, { duration: 500, easing: Easing.inOut(Easing.ease) });
            filterwidth.value= withTiming(width, { duration: 500, easing: Easing.inOut(Easing.ease) });
-           filterheight.value= withTiming(height, { duration: 500, easing: Easing.inOut(Easing.ease) });
+           filterheight.value= withTiming(height+verticalScale(40), { duration: 500, easing: Easing.inOut(Easing.ease) });
     }
     setIsFilterVisible(!isFilterVisible);
   };
@@ -325,7 +322,7 @@ visible.value=withTiming(0,{duration:1100});
             alignItems: 'center'
             ,borderRadius:30 
           }}>
-          <View style={{ backgroundColor: 'black',borderRadius:30 }}>
+          <View style={{ backgroundColor: 'red',borderRadius:30 }}>
            
            
             <TouchableOpacity style={{}} onPress={()=>{ handeldetailPress()}}>
@@ -346,8 +343,8 @@ visible.value=withTiming(0,{duration:1100});
                 height: height * 0.5,
                 backgroundColor: 'black',
                 position: 'absolute',
-                borderRadius:34,
-                opacity: 0.55,
+                borderRadius:25,
+                opacity: 0.68,
                 zIndex: 1,
               }}></TouchableOpacity>
             <Text
@@ -356,8 +353,8 @@ visible.value=withTiming(0,{duration:1100});
                 fontSize: RFPercentage(5),
                 position: 'absolute',
                 zIndex: 44,
-                marginLeft: '5%',
-                marginTop:moderateScale(180),fontFamily: 'Poppins_400Regular' 
+                marginLeft: '7%',
+                marginTop:verticalScale(150),fontFamily: 'Poppins_400Regular' 
               }}>
               {users[i].name}
             </Text>
@@ -367,8 +364,8 @@ visible.value=withTiming(0,{duration:1100});
                 fontSize: RFPercentage(4),
                 position: 'absolute',
                 zIndex: 44,
-                marginLeft: '5%',
-                marginTop: moderateScale(220),fontFamily: 'Poppins_400Regular' 
+                marginLeft: '7%',
+                marginTop: verticalScale(190),fontFamily: 'Poppins_400Regular' 
               }}>
             { users[i].age}
             </Text>
@@ -378,8 +375,8 @@ visible.value=withTiming(0,{duration:1100});
                 fontSize: RFPercentage(4),
                 position: 'absolute',
                 zIndex: 44,
-                marginLeft: '5%',
-                marginTop: moderateScale(250),fontFamily: 'Poppins_400Regular' 
+                marginLeft: '7%',
+                marginTop: verticalScale(220),fontFamily: 'Poppins_400Regular' 
               }}>
              {users[i].country}
             </Text>
@@ -536,9 +533,8 @@ detailContainer: {
     position: 'absolute',
     top: 0,
     left: 0,
-  
-    width: '100%',
-    height: '100%',
+    width: '20%',
+    height:11,
     backgroundColor: 'white',
     zIndex: 199,
     padding: '0%',
