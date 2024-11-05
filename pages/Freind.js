@@ -59,10 +59,22 @@ const handleunderlinePress = () => {
 if(underline.value==0){
     underline.value = withTiming(2,1000)
        underlinee.value = withTiming(0,1000)
+       opa1.value=withTiming(0,{duration:1000})
+      setshow2(1)
+      setshow1(0)
+       opa2.value=withTiming(1,{duration:1200})
 }
 else{
-  underline.value = withTiming(0,1000)
+  opa2.value = withTiming(0,{duration:1000})
+   setshow2(0)
+      setshow1(1)
+       opa1.value = withTiming(1,{duration:1200})
+
+ underline.value = withTiming(0,1000)
        underlinee.value = withTiming(2,1000)
+
+
+
 }
 
 
@@ -89,7 +101,7 @@ const [filters, setFilters] = useState({
   };
 
 /*********************************** */
-var matches=[1,11,1,1,1,1,1,1,1,1,1,1,1,1]
+var matches=[1,11,1,1,1,3,4,5]
 
 const [ageRange, setAgeRange] = useState([18, 30]); // Default age range
   const [country, setCountry] = useState('Russia'); // Default country
@@ -242,8 +254,29 @@ visible.value=withTiming(0,{duration:1100});
 
 /************************************************************************************************************ */
 
+var opa1=useSharedValue(1);
+var opa2=useSharedValue(0)
+
+var [show1,setshow1]=useState(1);
+var [show2,setshow2]=useState(0);
+const animatedReq = useAnimatedStyle(() => {
+    return {
+      opacity: opa1.value,
+    };
+  });
+
+const animatedMatch = useAnimatedStyle(() => {
+    return {
+      opacity: opa2.value,
+    };
+  });
 
 
+
+
+
+
+/******************************************88 */
 
 
 
@@ -369,8 +402,9 @@ visible.value=withTiming(0,{duration:1100});
 
 </View>
 
-<ScrollView style={{backgroundColor:'white',padding:scale(15),borderTopRightRadius:moderateScale(45),
-borderTopLeftRadius:moderateScale(45)}}>  
+{show1==1 &&
+<Animated.ScrollView style={[animatedReq,{backgroundColor:'white',padding:scale(15),borderTopRightRadius:moderateScale(45),
+borderTopLeftRadius:moderateScale(45)}]}>  
   
 
 
@@ -406,9 +440,62 @@ Yulianna
 </View>
 )})
 }
-   </ScrollView>
+   </Animated.ScrollView>
+}
+  
+
+
+
+
+
+
+{show2==1 &&
+<Animated.ScrollView style={[animatedMatch,{backgroundColor:'white',padding:scale(15),borderTopRightRadius:moderateScale(45),
+borderTopLeftRadius:moderateScale(45)}]}>  
+  
+
+
+
+{ [5,6].map(()=>{
+  return(
+<View style={{display:'flex',flexDirection:'row',justifyContent:'space-between',alignItems:'center',borderBottomWidth:RFPercentage(0.1),borderBlockColor:'#f7f7f7',paddingVertical:RFPercentage(2)}}>
+ <TouchableOpacity>
+ <Image
+          style={{ width:scale(40), height:verticalScale(45),borderRadius: Math.min(scale(40),verticalScale(45))/2, marginLeft: '1%' }}
+          source={{uri:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC1l6fbVIlb9dXMPu06Tnl5wO-v_cEi2a2Yw&s'}}
+          resizeMode="cover"
+        />
+</TouchableOpacity>
+
+<MaterialIcons style={{marginLeft:-RFPercentage(1)}}name="girl" size={RFPercentage(6)} color="#e40f6d" />
+<View>
+<Text style={{fontSize:RFPercentage(2.2),fontFamily: 'Poppins_400Regular'}}>
+Yulianna
+</Text>
+<Text style={{fontSize:RFPercentage(2.2),fontFamily: 'Poppins_400Regular'}}>20</Text>
+
+</View>
+
+<TouchableOpacity>
+ <AntDesign name="message1" size={RFPercentage(5)} color="#9d9b9b" />
+</TouchableOpacity>
+
+
+
+</View>
+)})
+}
+   </Animated.ScrollView>
  
   
+
+}
+
+
+
+
+
+
   
     </LinearGradient>
            
