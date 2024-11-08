@@ -5,7 +5,7 @@ import {
   Text,
   View,
   Dimensions,
-  Image,
+  Image,FlatList,Modal,
   TouchableOpacity
 , Slider, Picker ,ScrollView
 } from 'react-native';
@@ -26,6 +26,50 @@ import Animated, {
 } from 'react-native-reanimated';
 
 export default function Home() {
+
+const zodiacSigns = [
+  { name: 'Aries', dates: 'March 21 - April 19', element: 'Fire', icon: 'zodiac-aries' },
+  { name: 'Taurus', dates: 'April 20 - May 20', element: 'Earth', icon: 'zodiac-taurus' },
+  { name: 'Gemini', dates: 'May 21 - June 20', element: 'Air', icon: 'zodiac-gemini' },
+  { name: 'Cancer', dates: 'June 21 - July 22', element: 'Water', icon: 'zodiac-cancer' },
+  { name: 'Leo', dates: 'July 23 - August 22', element: 'Fire', icon: 'zodiac-leo' },
+  { name: 'Virgo', dates: 'August 23 - September 22', element: 'Earth', icon: 'zodiac-virgo' },
+  { name: 'Libra', dates: 'September 23 - October 22', element: 'Air', icon: 'zodiac-libra' },
+  { name: 'Scorpio', dates: 'October 23 - November 21', element: 'Water', icon: 'zodiac-scorpio' },
+  { name: 'Sagittarius', dates: 'November 22 - December 21', element: 'Fire', icon: 'zodiac-sagittarius' },
+  { name: 'Capricorn', dates: 'December 22 - January 19', element: 'Earth', icon: 'zodiac-capricorn' },
+  { name: 'Aquarius', dates: 'January 20 - February 18', element: 'Air', icon: 'zodiac-aquarius' },
+  { name: 'Pisces', dates: 'February 19 - March 20', element: 'Water', icon: 'zodiac-pisces' },
+];
+
+
+
+const [modalVisibl, setModalVisibl] = useState(false);
+  const [selectedSign, setSelectedSign] = useState(zodiacSigns[0]);
+
+  const openModal = (sign) => {
+    setSelectedSign(sign);
+    setModalVisibl(false);
+  };
+
+  const closeModal = () => {
+    setModalVisibl(false);
+    setSelectedSign(null);
+  };
+
+  const renderSign = ({ item }) => (
+    <TouchableOpacity style={styles.signItem} onPress={() => openModal(item)}>
+      <MaterialCommunityIcons name={item.icon} size={24} color="#ff8c00" />
+      <Text style={styles.signName}>{item.name}</Text>
+    </TouchableOpacity>
+  );
+
+
+
+
+
+
+
   const [fontLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
@@ -477,6 +521,23 @@ visible.value=withTiming(0,{duration:1100});
           </TouchableOpacity>
         ))}
       </View>
+      <TouchableOpacity onPress={()=>{setModalVisibl(true)}}>
+      
+   <Text style={styles.filterOption}>
+        sign: {selectedSign.name}
+      </Text>
+ </TouchableOpacity>
+  <MaterialCommunityIcons name={selectedSign.icon} size={24} color="#ff8c00" />
+     {modalVisibl==true && ( <FlatList
+        data={zodiacSigns}
+        renderItem={renderSign}
+        keyExtractor={(item) => item.name}
+        contentContainerStyle={styles.signList}
+      />
+     )}
+
+
+
     </Animated.View>
 
 
@@ -558,34 +619,37 @@ detailContainer: {
     marginBottom: 10,
   },
   filterTitle: {
-    fontSize: RFPercentage(5),
+    fontSize: RFPercentage(4),
     fontWeight: 'bold',marginLeft:scale(15),
     color: '#FF6F61',
     marginBottom: 15,
   },
   filterOption: {
-    marginTop: verticalScale(35),
+    marginTop: verticalScale(20),
     marginLeft:scale(15),
-    fontSize: RFPercentage(3.5),
+    fontSize: RFPercentage(3),
     color: '#FFFFFF',
   },
   optionContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: verticalScale(10),
+    marginTop: verticalScale(5),
   },
   optionButton: {
     backgroundColor: '#FF6F61',
     borderRadius: 8,
     paddingVertical: verticalScale(10),
-    paddingHorizontal: scale(30),
-    marginLeft:scale(25),
-    marginTop:verticalScale(25),
+    width:scale(100),
+ display:'flex',
+ flexDirection:'row',
+ justifyContent:'center',
+    marginLeft:scale(20),
+    marginTop:verticalScale(20),
     elevation: 3,
     transition: 'background-color 0.3s ease',
   },
   optionText: {
-    fontSize: RFPercentage(2.6),
+    fontSize: RFPercentage(2.2),
     color: '#FFFFFF',
   },
   optionButtonHovered: {
@@ -602,10 +666,10 @@ detailContainer: {
 
   textContainer: {
     flex: 1,
-    padding:moderateScale(20)
+    padding:moderateScale(15)
   },
   description: {
-    fontSize: RFPercentage(2.2),
+    fontSize: RFPercentage(2),
     marginTop:scale(5),
     fontWeight: 600,
     color: '#333'    ,fontFamily: 'Poppins_400Regular'
@@ -615,5 +679,51 @@ detailContainer: {
     fontSize: RFPercentage(3),
     color: '#666'
     ,fontFamily: 'Poppins_400Regular'
+  }, signList: {
+    paddingHorizontal: 20,
+  },
+  signItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    backgroundColor:'white',
+    borderBottomColor: '#eee',
+  },
+  signName: {
+    fontSize: 18,
+    marginLeft: 10,
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    width: '80%',
+  },
+  modalTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginVertical: 10,
+  },
+  modalDates: {
+    fontSize: 16,
+    color: '#555',
+  },
+  modalElement: {
+    fontSize: 16,
+    color: '#ff8c00',
+    marginTop: 10,
+  },
+
+  closeButtonText: {
+    color: '#fff',
+    fontSize: 16,
   },
 });
