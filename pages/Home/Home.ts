@@ -493,7 +493,7 @@ visible.value=withTiming(0,{duration:1100});
 
  <Animated.View style={[styles.filterContainer, animatedFilterStyle]}>
       <TouchableOpacity onPress={()=>{handleFilterPress()}} style={styles.closeButton}>
-        <AntDesign name="closecircle" size={RFPercentage(4)} color="white" />
+        <AntDesign name="closecircle" size={RFPercentage(4)} color="gray" />
       </TouchableOpacity>
 
       <Text style={styles.filterTitle}>Filter</Text>
@@ -522,12 +522,23 @@ visible.value=withTiming(0,{duration:1100});
         ))}
       </View>
       <TouchableOpacity onPress={()=>{setModalVisibl(true)}}>
-      
-   <Text style={styles.filterOption}>
-        sign: {selectedSign.name}
-      </Text>
- </TouchableOpacity>
+
+
+  <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
+    <Text style={styles.filterOption}>
+        Sign: 
+      </Text> 
+      <View style={{marginTop:scale(20),marginLeft:scale(10)}}>
   <MaterialCommunityIcons name={selectedSign.icon} size={24} color="#ff8c00" />
+ </View>
+<Text style={{marginTop:scale(25),marginLeft:scale(7),fontSize: RFPercentage(2.5),color:'#717171'}} >{selectedSign.name}</Text>
+  </View>     
+ 
+ </TouchableOpacity>
+
+
+
+ 
      {modalVisibl==true && ( <FlatList
         data={zodiacSigns}
         renderItem={renderSign}
@@ -602,8 +613,8 @@ detailContainer: {
   }
   ,filterContainer: {
     position:'absolute',
-    paddingVertical: verticalScale(25),
-    backgroundColor: '#1F1F1F',
+    paddingVertical: verticalScale(5),
+    backgroundColor: 'white',
     borderRadius: moderateScale(10),
     shadowColor: '#000',
     shadowOffset: {
@@ -617,6 +628,8 @@ detailContainer: {
   closeButton: {
     alignSelf: 'flex-end',
     marginBottom: 10,
+    marginTop:verticalScale(12),
+    marginRight:scale(10)
   },
   filterTitle: {
     fontSize: RFPercentage(4),
@@ -625,10 +638,10 @@ detailContainer: {
     marginBottom: 15,
   },
   filterOption: {
-    marginTop: verticalScale(20),
+    marginTop: verticalScale(25),
     marginLeft:scale(15),
-    fontSize: RFPercentage(3),
-    color: '#FFFFFF',
+    fontSize: RFPercentage(3.2),
+    color: 'black',
   },
   optionContainer: {
     flexDirection: 'row',
